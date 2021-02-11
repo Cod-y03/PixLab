@@ -1,1 +1,3 @@
-#1 No it isnt there
+#1 9 times
+
+#2 70 times

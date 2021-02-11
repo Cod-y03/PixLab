@@ -113,11 +113,25 @@ public class PictureTester
     canvas.explore();
   }
   
+  public static void testCollagePart()
+  {
+    Picture canvas = new Picture("640x480.jpg");
+    canvas.createCollagePart();
+    canvas.explore();
+  }
+
   /** Method to test edgeDetection */
   public static void testEdgeDetection()
   {
     Picture swan = new Picture("swan.jpg");
     swan.edgeDetection(10);
+    swan.explore();
+  }
+
+  public static void testEdgeDetectionVert()
+  {
+    Picture swan = new Picture("swan.jpg");
+    swan.edgeDetectionVert(10);
     swan.explore();
   }
   
@@ -128,7 +142,9 @@ public class PictureTester
     // uncomment a call here to run a test
     // and comment out the ones you don't want
     // to run
-    testMirrorGull();
+    // testCollagePart();
+    testEdgeDetectionVert();
+    //testMirrorGull();
     //testWater();
     //testZeroBlue();
     //testKeepOnlyBlue();

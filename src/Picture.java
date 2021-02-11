@@ -300,6 +300,23 @@ public class Picture extends SimplePicture {
 			}
 		}
 	}
+	public void copyPart(Picture fromPic, int startRow, int startCol, int endRow, int endCol) {
+		Pixel fromPixel = null;
+		Pixel toPixel = null;
+		int rowEnd = endRow;
+		int colEnd = endCol;
+		Pixel[][] toPixels = this.getPixels2D();
+		Pixel[][] fromPixels = fromPic.getPixels2D();
+		for (int fromRow = 0, toRow = startRow; fromRow < rowEnd
+				&& toRow < toPixels.length; fromRow++, toRow++) {
+			for (int fromCol = 0, toCol = startCol; fromCol < colEnd
+					&& toCol < toPixels[0].length; fromCol++, toCol++) {
+				fromPixel = fromPixels[fromRow][fromCol];
+				toPixel = toPixels[toRow][toCol];
+				toPixel.setColor(fromPixel.getColor());
+			}
+		}
+	}
 
 	/** Method to create a collage of several pictures */
 	public void createCollage() {
@@ -317,6 +334,20 @@ public class Picture extends SimplePicture {
 		this.write("collage.jpg");
 	}
 
+	public void createCollagePart() {
+		Picture flower1 = new Picture("flower1.jpg");
+		Picture flower2 = new Picture("flower2.jpg");
+		this.copyPart(flower1, 0, 0, 50, 50);
+		this.copyPart(flower2, 100, 0, 25, 75);
+		this.copy(flower1, 200, 0);
+		Picture flowerNoBlue = new Picture(flower2);
+		flowerNoBlue.zeroBlue();
+		this.copyPart(flowerNoBlue, 300, 0, 75, 50);
+		this.copy(flower1, 400, 0);
+		this.copy(flower2, 500, 0);
+		this.mirrorVertical();
+		this.write("collage.jpg");
+	}
 	/**
 	 * Method to show large changes in color
 	 * 
@@ -341,6 +372,23 @@ public class Picture extends SimplePicture {
 		}
 	}
 
+	public void edgeDetectionVert(int edgeDist) {
+		Pixel leftPixel = null;
+		Pixel rightPixel = null;
+		Pixel[][] pixels = this.getPixels2D();
+		Color rightColor = null;
+		for (int row = 0; row < pixels.length - 1; row++) {
+			for (int col = 0; col < pixels[0].length; col++) {
+				leftPixel = pixels[row][col];
+				rightPixel = pixels[row + 1][col];
+				rightColor = rightPixel.getColor();
+				if (leftPixel.colorDistance(rightColor) > edgeDist)
+					leftPixel.setColor(Color.BLACK);
+				else
+					leftPixel.setColor(Color.WHITE);
+			}
+		}
+	}
 	/*
 	 * Main method for testing - each class in Java can have a main method
 	 */
